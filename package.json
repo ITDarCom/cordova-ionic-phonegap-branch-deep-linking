@@ -1,5 +1,5 @@
 {
-  "name": "itdar-branch-cordova-sdk",
+  "name": "my-branch-cordova-sdk",
   "description": "Branch Metrics Cordova SDK",
   "main": "src/branch.js",
   "version": "2.6.23",
