@@ -232,7 +232,27 @@
         // if (preferences.androidPrefix === null) {
         //   throw new Error('BRANCH SDK: Invalid "android-prefix" in <branch-config> in your config.xml. Docs https://goo.gl/GijGKP')
         // }
-        intentFilterData.push(getAppLinkIntentFilterDictionary(linkDomain, preferences.androidPrefix))
+				var androidPrefixes = preferences.androidPrefix
+				var schemesArray = ['http', 'https']
+				var scheme, e, s;
+
+				for (e = 0; e < androidPrefixes.length; e++) {
+					for (s = 0; s < schemesArray.length; s++) {
+						var androidPrefix = androidPrefixes[e]
+						scheme = schemesArray[s]
+						intentFilterData.push(getAppLinkIntentFilterDictionary(linkDomain, androidPrefix, null, scheme))
+					}
+				}
+
+				var androidPaths = preferences.androidPath
+
+				for (e = 0; e < androidPaths.length; e++) {
+					for (s = 0; s < schemesArray.length; s++) {
+						var androidPath = androidPaths[e]
+						scheme = schemesArray[s]
+						intentFilterData.push(getAppLinkIntentFilterDictionary(linkDomain, null, androidPath, scheme))
+					}
+				}
       }
     }
 
@@ -240,8 +260,8 @@
   }
 
   // generate the array dictionary for <data> component for the App Link intent filter
-  function getAppLinkIntentFilterDictionary (linkDomain, androidPrefix) {
-    var scheme = 'https'
+  function getAppLinkIntentFilterDictionary (linkDomain, androidPrefix, androidPath, neededScheme) {
+    var scheme = neededScheme ? neededScheme : 'https'
     var output = {
       '$': {
         'android:host': linkDomain,
@@ -252,6 +272,10 @@
     if (androidPrefix) {
       output['$']['android:pathPrefix'] = androidPrefix
     }
+
+		if (androidPath) {
+			output['$']['android:path'] = androidPath
+		}
 
     return output
   }

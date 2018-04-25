@@ -57,7 +57,8 @@
       'iosTeamRelease': getBranchValue(branchXml, 'ios-team-release'), // optional
       'iosTeamDebug': getBranchValue(branchXml, 'ios-team-debug'), // optional
       'androidBundleId': getBundleId(configXml, 'android'), // optional
-      'androidPrefix': getBranchValue(branchXml, 'android-prefix'), // optional
+      'androidPrefix': getBranchLinkDomains(branchXml, 'android-prefix'), // optional
+      'androidPath': getBranchLinkDomains(branchXml, 'android-path'), // optional
       'androidTestMode': getBranchValue(branchXml, 'android-testmode') // optional
     }
   }
@@ -89,7 +90,7 @@
     return (branchXml.hasOwnProperty(key)) ? branchXml[key][0]['$']['value'] : null
   }
 
-  // read branch value from <branch-config> for multiple <link-domain>
+  // read branch value from <branch-config> for multiple <link-domain> or <android-prefix> or <android-path>
   function getBranchLinkDomains (branchXml, key) {
     var output = []
     if (branchXml.hasOwnProperty(key)) {
